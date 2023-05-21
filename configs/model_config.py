@@ -13,7 +13,7 @@ embedding_model_dict = {
     "ernie-tiny": "nghuyong/ernie-3.0-nano-zh",
     "ernie-base": "nghuyong/ernie-3.0-base-zh",
     "text2vec-base": "shibing624/text2vec-base-chinese",
-    "text2vec": "GanymedeNil/text2vec-large-chinese",
+    "text2vec": "/data/llm/langchain-ChatGLM-master/weight/GanymedeNil/text2vec-large-chinese/",
 }
 
 # Embedding model name
@@ -28,19 +28,21 @@ llm_model_dict = {
     "chatglm-6b-int4-qe": "THUDM/chatglm-6b-int4-qe",
     "chatglm-6b-int4": "THUDM/chatglm-6b-int4",
     "chatglm-6b-int8": "THUDM/chatglm-6b-int8",
-    "chatglm-6b": "THUDM/chatglm-6b",
-    "moss": "fnlp/moss-moon-003-sft",
+    "chatglm-6b": "/data/models/huggingface/chatglm-6b",
+    "moss": "/aidata/models/huggingface_models/moss-moon-003-sft",
+    "cestc":"xx"
 }
 
 # LLM model name
 LLM_MODEL = "chatglm-6b"
+LLM_MODEL = "cestc"
 
 # LLM lora path，默认为空，如果有请直接指定文件夹路径
 LLM_LORA_PATH = ""
 USE_LORA = True if LLM_LORA_PATH else False
 
 # LLM streaming reponse
-STREAMING = True
+STREAMING = False
 
 # Use p-tuning-v2 PrefixEncoder
 USE_PTUNING_V2 = False

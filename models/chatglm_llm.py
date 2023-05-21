@@ -121,6 +121,7 @@ class ChatGLM(LLM):
             trust_remote_code=True
         )
 
+        logger.info('model_name_or_path:{}',model_name_or_path)
         model_config = AutoConfig.from_pretrained(model_name_or_path, trust_remote_code=True)
 
         if use_ptuning_v2:

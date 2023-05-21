@@ -149,13 +149,19 @@ class LocalDocQA:
                  use_ptuning_v2: bool = USE_PTUNING_V2,
                  use_lora: bool = USE_LORA,
                  ):
+        print('LocalDocQA llm_model=',llm_model)
         if llm_model.startswith('moss'):
             from models.moss_llm import MOSS
             self.llm = MOSS()
+        if llm_model.startswith('cestc'):
+            from models.cestcglm_llm import CESTCGLM
+            self.llm = CESTCGLM()
         else:
             from models.chatglm_llm import ChatGLM
             self.llm = ChatGLM()
-        self.llm.load_model(model_name_or_path=llm_model_dict[llm_model],
+        
+        if not llm_model.startswith('cestc'):
+            self.llm.load_model(model_name_or_path=llm_model_dict[llm_model],
                             llm_device=llm_device, use_ptuning_v2=use_ptuning_v2, use_lora=use_lora)
         self.llm.history_len = llm_history_len
 
@@ -258,7 +264,7 @@ class LocalDocQA:
         related_docs_with_score = vector_store.similarity_search_with_score(query, k=self.top_k)
         torch_gc()
         prompt = generate_prompt(related_docs_with_score, query)
-
+        print(prompt)
         for result, history in self.llm._call(prompt=prompt,
                                               history=chat_history,
                                               streaming=streaming):
