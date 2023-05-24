@@ -123,7 +123,7 @@ def get_vector_store(vs_id, files, sentence_size, history, one_conent, one_conte
                 filename = os.path.split(file.name)[-1]
                 shutil.move(file.name, os.path.join(UPLOAD_ROOT_PATH, vs_id, filename))
                 filelist.append(os.path.join(UPLOAD_ROOT_PATH, vs_id, filename))
-            vs_path, loaded_files = local_doc_qa.init_knowledge_vector_store(filelist, vs_path, sentence_size)
+            vs_path, loaded_files = local_doc_qa.init_knowledge_vector_store_paddle(filelist, vs_path, sentence_size)
         else:
             vs_path, loaded_files = local_doc_qa.one_knowledge_add(vs_path, files, one_conent, one_content_segmentation,
                                                                    sentence_size)
@@ -424,7 +424,7 @@ with gr.Blocks(css=block_css, theme=gr.themes.Default(**default_theme_args)) as 
 (demo
  .queue(concurrency_count=3)
  .launch(server_name='0.0.0.0',
-         server_port=7860,
+         server_port=7861,
          show_api=False,
          share=False,
          inbrowser=False))

@@ -110,7 +110,7 @@ class ChatGLM(LLM):
     #     return response
 
     def load_model(self,
-                   model_name_or_path: str = "THUDM/chatglm-6b",
+                   model_name_or_path: str = "F:\langchain-ChatGLM\weights\chatglm-6b-int4",
                    llm_device=LLM_DEVICE,
                    use_ptuning_v2=False,
                    use_lora=False,
@@ -134,7 +134,8 @@ class ChatGLM(LLM):
             except Exception as e:
                 logger.error(f"加载PrefixEncoder config.json失败: {e}")
         self.model = AutoModel.from_pretrained(model_name_or_path, config=model_config, trust_remote_code=True,
-                                               **kwargs)
+                                               **kwargs).half().quantize(bits=4, kernel_file="F:\\langchain-ChatGLM\\weights\\chatglm-6b-int4\\quantization_kernels.so").cuda()
+
         if LLM_LORA_PATH and use_lora:
             from peft import PeftModel
             self.model = PeftModel.from_pretrained(self.model, LLM_LORA_PATH)

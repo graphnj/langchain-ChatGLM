@@ -12,6 +12,10 @@ from tqdm import tqdm
 from pypinyin import lazy_pinyin
 from loader import UnstructuredPaddleImageLoader
 from loader import UnstructuredPaddlePDFLoader
+from langchain.document_loaders.csv_loader import CSVLoader
+from textsplitter.paddle_text_splitter import convert_files_to_dicts
+
+import time
 
 DEVICE_ = EMBEDDING_DEVICE
 DEVICE_ID = "0" if torch.cuda.is_available() else None
@@ -30,10 +34,20 @@ def load_file(filepath, sentence_size=SENTENCE_SIZE):
         loader = UnstructuredPaddleImageLoader(filepath, mode="elements")
         textsplitter = ChineseTextSplitter(pdf=False, sentence_size=sentence_size)
         docs = loader.load_and_split(text_splitter=textsplitter)
+    elif filepath.lower().endswith(".csv"):
+        loader = CSVLoader(file_path=filepath, encoding="utf-8")
+        docs = loader.load()
     else:
         loader = UnstructuredFileLoader(filepath, mode="elements")
         textsplitter = ChineseTextSplitter(pdf=False, sentence_size=sentence_size)
         docs = loader.load_and_split(text_splitter=textsplitter)
+    write_check_file(filepath, docs)
+    return docs
+
+
+def load_file_paddle(filepath, sentence_size=SENTENCE_SIZE):
+    docs = convert_files_to_dicts(filepath, split_paragraphs=True, split_answers=False)
+
     write_check_file(filepath, docs)
     return docs
 
@@ -136,7 +150,7 @@ class LocalDocQA:
     embeddings: object = None
     top_k: int = VECTOR_SEARCH_TOP_K
     chunk_size: int = CHUNK_SIZE
-    chunk_conent: bool = True
+    chunk_conent: bool = CHUNL_CONENT
     score_threshold: int = VECTOR_SEARCH_SCORE_THRESHOLD
 
     def init_cfg(self,
@@ -168,6 +182,7 @@ class LocalDocQA:
         self.embeddings = HuggingFaceEmbeddings(model_name=embedding_model_dict[embedding_model],
                                                 model_kwargs={'device': embedding_device})
         self.top_k = top_k
+
 
     def init_knowledge_vector_store(self,
                                     filepath: str or List[str],
@@ -224,8 +239,12 @@ class LocalDocQA:
             else:
                 if not vs_path:
                     vs_path = os.path.join(VS_ROOT_PATH,
+
                                            f"""{"".join(lazy_pinyin(os.path.splitext(file)[0]))}_FAISS_{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}""")
-                vector_store = FAISS.from_documents(docs, self.embeddings)  # docs 为Document列表
+                time1=time.time()
+                print(time1)
+                vector_store = FAISS.from_documents(docs, self.embeddings)# docs 为Document列表
+                print(" %s Seconds" % (time.time()-time1))
                 torch_gc()
 
             vector_store.save_local(vs_path)
