@@ -198,7 +198,7 @@ async def delete_docs(
 
 
 async def local_doc_chat(
-        knowledge_base_id: str = Body(default='社会治理', description="Knowledge Base Name", example="kb1"),
+        knowledge_base_id: str = Body(default='网格员2', description="Knowledge Base Name", example="kb1"),
         question: str = Body(..., description="Question", example="工伤保险是什么？"),
         history: List[List[str]] = Body(
             [],
