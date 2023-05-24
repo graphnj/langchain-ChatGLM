@@ -13,7 +13,7 @@ embedding_model_dict = {
     "ernie-tiny": "nghuyong/ernie-3.0-nano-zh",
     "ernie-base": "nghuyong/ernie-3.0-base-zh",
     "text2vec-base": "shibing624/text2vec-base-chinese",
-    "text2vec": "/data/llm/langchain-ChatGLM-master/weight/GanymedeNil/text2vec-large-chinese/",
+    "text2vec": "F:\langchain-ChatGLM\weights\GanymedeNil\\text2vec-large-chinese",
 }
 
 # Embedding model name
@@ -52,6 +52,9 @@ LLM_DEVICE = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mp
 
 # MOSS load in 8bit
 LOAD_IN_8BIT = True
+
+
+CHUNL_CONENT = True
 
 VS_ROOT_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "vector_store")
 

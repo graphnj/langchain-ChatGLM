@@ -79,7 +79,7 @@ class CESTCGLM():
         param = {
             'query': prompt
         }
-        url = "http://127.0.0.1:19324/"
+        url = "http://10.32.132.248:33087/"
         param = {
             'prompt': prompt
         }
@@ -94,10 +94,11 @@ class CESTCGLM():
         try:
             ans=response.json()[ans]
             if isinstance(ans,list):
-                answer = ans[0]
+                answer = ans[0].replace("\n<|MOSS|>: 答", "星智小助手")
             else:
-                answer = ans
+                answer = ans.replace("\n<|MOSS|>", "星智小助手")
             simpleanswer = answer.split('$$')[-1]
+            print("simpleanswer")
         except:
             pass
         history += [[prompt, simpleanswer]]
