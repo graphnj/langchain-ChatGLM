@@ -198,7 +198,7 @@ async def delete_docs(
 
 
 async def local_doc_chat(
-        knowledge_base_id: str = Body(..., description="Knowledge Base Name", example="kb1"),
+        knowledge_base_id: str = Body(default='社会治理', description="Knowledge Base Name", example="kb1"),
         question: str = Body(..., description="Question", example="工伤保险是什么？"),
         history: List[List[str]] = Body(
             [],
@@ -330,7 +330,8 @@ def api_start(host, port):
 
     app.get("/", response_model=BaseResponse)(document)
 
-    app.post("/chat", response_model=ChatMessage)(chat)
+    #app.post("/chat", response_model=ChatMessage)(chat)
+    app.post("/chat", response_model=ChatMessage)(local_doc_chat)
 
     app.post("/local_doc_qa/upload_file", response_model=BaseResponse)(upload_file)
     app.post("/local_doc_qa/upload_files", response_model=BaseResponse)(upload_files)
