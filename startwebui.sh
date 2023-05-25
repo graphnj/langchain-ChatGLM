@@ -13,7 +13,8 @@ fi
  
 nowDate=`date +"%Y-%m-%d"`
 #进入对应的目录，重启服务
-nohup python $keyword  >nohup.log 2>&1 &  
+export CUDA_VISIBLE_DEVICES=2,3
+nohup   python $keyword  >nohup.log 2>&1 &  
  
 nowstr=`ps -ef | grep $keyword | grep -v "grep"|awk '{print $2}'`
 #打印出现在新的进程号

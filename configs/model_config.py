@@ -76,7 +76,7 @@ CHUNK_SIZE = 250
 LLM_HISTORY_LEN = 3
 
 # return top-k text chunk from vector store
-VECTOR_SEARCH_TOP_K = 5
+VECTOR_SEARCH_TOP_K = 2
 
 # 知识检索内容相关度 Score, 数值范围约为0-1100，如果为0，则不生效，经测试设置为小于500时，匹配结果更精准
 VECTOR_SEARCH_SCORE_THRESHOLD = 0
