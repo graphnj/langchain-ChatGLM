@@ -66,6 +66,7 @@ class CESTCGLM():
 
     def _call(self,
               prompt: str,
+              uid: str,
               history: List[List[str]] = [],
               streaming: bool = True):  # -> Tuple[str, List[List[str]]]:
         import requests
@@ -79,9 +80,12 @@ class CESTCGLM():
         param = {
             'query': prompt
         }
+
+
         url = "http://10.32.132.248:33087/"
         param = {
-            'prompt': prompt
+            'prompt': prompt,
+            'uid': uid
         }
 
         ans='answer'
