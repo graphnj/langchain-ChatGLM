@@ -334,7 +334,7 @@ def api_start(host, port):
     app.get("/", response_model=BaseResponse)(document)
 
     #app.post("/chat", response_model=ChatMessage)(chat)
-    app.post("/chat", response_model=ChatMessage)(local_doc_chat)
+    app.post("/chat", response_model=ChatMessage)(chat)
 
     app.post("/local_doc_qa/upload_file", response_model=BaseResponse)(upload_file)
     app.post("/local_doc_qa/upload_files", response_model=BaseResponse)(upload_files)
