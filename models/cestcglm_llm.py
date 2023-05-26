@@ -91,19 +91,22 @@ class CESTCGLM():
         print(__file__,"response"+str(response.json()))   
         answer = 'sorry'
         simpleanswer = 'sorry'
+        uid=None
         try:
-            ans=response.json()[ans]
-            if isinstance(ans,list):
-                answer = ans[0].replace("\n<|MOSS|>: 答", "星智小助手")
+            jsondata=response.json()
+            ans1=jsondata[ans]
+            if isinstance(ans1,list):
+                answer = ans1[0].replace("\n<|MOSS|>: 答", "星智小助手")
             else:
-                answer = ans.replace("\n<|MOSS|>", "星智小助手")
+                answer = ans1.replace("\n<|MOSS|>", "星智小助手")
+            uid = jsondata['uid'] if jsondata.get('uid') else None
             simpleanswer = answer.split('$$')[-1]
             print("simpleanswer")
         except:
             pass
         history += [[prompt, simpleanswer]]
 
-        yield answer,history
+        yield answer,history,uid
 
 
 

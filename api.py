@@ -242,6 +242,7 @@ async def local_doc_chat(
 
 async def chat(
         question: str = Body(..., description="Question", example="工伤保险是什么？"),
+        uid: str = Body(..., description="uid", example="user id(uuid形式)"),
         history: List[List[str]] = Body(
             [],
             description="History of previous questions and answers",
@@ -253,14 +254,15 @@ async def chat(
             ],
         ),
 ):
-    for resp, history in local_doc_qa.llm._call(
-            prompt=question, history=history, streaming=True
+    for resp, history, uid in local_doc_qa.llm._call(
+            prompt=question, uid=uid, history=history, streaming=True
     ):
         pass
 
     return ChatMessage(
         question=question,
         response=resp,
+        uid=uid,
         history=history,
         source_documents=[],
     )
