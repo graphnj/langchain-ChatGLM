@@ -50,6 +50,7 @@ class ListDocsResponse(BaseResponse):
 class ChatMessage(BaseModel):
     question: str = pydantic.Field(..., description="Question text")
     response: str = pydantic.Field(..., description="Response text")
+    uid: str = pydantic.Field(..., description="Response uid")
     history: List[List[str]] = pydantic.Field(..., description="History text")
     source_documents: List[str] = pydantic.Field(
         ..., description="List of source documents and their scores"
